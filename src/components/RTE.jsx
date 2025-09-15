@@ -1,5 +1,6 @@
 import React from "react";
-import { Editor } from "@tinymce/tinymce-react";
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { Controller } from "react-hook-form";
 
 export default function RTE({ name, control, label, defaultValue = "" }) {
@@ -7,6 +8,7 @@ export default function RTE({ name, control, label, defaultValue = "" }) {
     console.error("RTE missing control prop!");
     return null;
   }
+
   return (
     <div className="w-full">
       {label && <label className="inline-block mb-1 pl-1">{label}</label>}
@@ -14,42 +16,30 @@ export default function RTE({ name, control, label, defaultValue = "" }) {
       <Controller
         name={name || "content"}
         control={control}
-        render={({ field: { onChange } }) => (
-          <Editor
-            apiKey="dcgyi9qivjcjez1zn9xa69hjombagef2fp95vbabiaxx1znq"
-            initialValue={defaultValue}
-            init={{
-              initialValue: defaultValue,
-              height: 500,
-              menubar: true,
-              plugins: [
-                "image",
-                "advlist",
-                "autolink",
-                "lists",
+        defaultValue={defaultValue}
+        render={({ field: { onChange, value } }) => (
+          <CKEditor
+            editor={ClassicEditor}
+            data={value || defaultValue}
+            config={{
+              toolbar: [
+                "heading",
+                "|",
+                "bold",
+                "italic",
                 "link",
-                "image",
-                "charmap",
-                "preview",
-                "anchor",
-                "searchreplace",
-                "visualblocks",
-                "code",
-                "fullscreen",
-                "insertdatetime",
-                "media",
-                "table",
-                "code",
-                "help",
-                "wordcount",
-                "anchor",
+                "bulletedList",
+                "numberedList",
+                "blockQuote",
+                "insertTable",
+                "undo",
+                "redo",
               ],
-              toolbar:
-                "undo redo | blocks | image | bold italic forecolor | alignleft aligncenter bold italic forecolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent |removeformat | help",
-              content_style:
-                "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
             }}
-            onEditorChange={onChange}
+            onChange={(event, editor) => {
+              const data = editor.getData();
+              onChange(data);
+            }}
           />
         )}
       />
