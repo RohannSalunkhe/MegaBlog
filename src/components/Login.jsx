@@ -29,7 +29,7 @@ function Login() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-[65vh] px-4 sm:px-6 lg:px-8">
+    <div className="flex items-center justify-center min-h-[65vh] px-4 sm:px-6 lg:px-8 mt-5 mb-5">
       <div className="w-full max-w-md bg-gray-900 rounded-3xl shadow-2xl overflow-hidden transform transition-all duration-300 hover:scale-[1.01]">
         {/* Header */}
         <div className="px-8 pt-8 pb-4 text-center">
